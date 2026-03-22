@@ -1,0 +1,690 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  background: #000;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Trebuchet MS', 'Verdana', sans-serif;
+}
+
+/* =========================
+   HIDDEN LEAF ATMOSPHERE
+========================= */
+body::before {
+  content: '';
+  position: fixed;
+  top: -220px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1000px;
+  height: 420px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.04) 28%,
+    rgba(255, 255, 255, 0.015) 48%,
+    rgba(255, 255, 255, 0) 72%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* =========================
+   SUMMONING JUTSU
+========================= */
+.SummoningJutsu {
+  width: 980px;
+  height: 430px;
+  margin: 0 auto;
+  margin-top: calc(50vh - 215px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 33px;
+  overflow: visible;
+  position: relative;
+  z-index: 1;
+  filter: saturate(1) grayscale(0);
+  transition: filter 0.9s ease, transform 0.4s ease;
+}
+
+/* =========================
+   SECRET TECHNIQUE FADE AWAY
+   starts after 60s idle, takes 6s
+========================= */
+.SummoningJutsu:not(:hover) {
+  animation: SecretTechniqueFadeAway 6s ease forwards;
+  animation-delay: 600s;
+}
+
+.SummoningJutsu:hover {
+  animation: none;
+  filter: saturate(1) grayscale(0);
+}
+
+@keyframes SecretTechniqueFadeAway {
+  0% {
+    filter: saturate(1) grayscale(0);
+  }
+  100% {
+    filter: saturate(0) grayscale(1);
+  }
+}
+
+/* =========================
+   SCROLLS
+========================= */
+.scroll {
+  flex: 1;
+  height: 93%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  transform: skewX(-15deg);
+  transform-origin: center;
+  transition:
+    flex 0.45s ease,
+    height 0.45s ease,
+    transform 0.45s ease,
+    box-shadow 0.45s ease,
+    filter 0.45s ease;
+  will-change: transform, opacity;
+  box-shadow:
+    0 10px 35px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(255,255,255,0.05);
+
+  opacity: 0;
+  animation: FallingCardJutsu 1.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--fall-delay, 0s);
+}
+
+.scroll::after {
+  animation: LandingFlashJutsu 1.25s ease-out both;
+  animation-delay: var(--fall-delay, 0s);
+}
+
+/* idle-only breathing, starts after 30s idle */
+.SummoningJutsu:not(:hover) .scroll {
+  animation:
+    FallingCardJutsu 1.25s cubic-bezier(0.22, 1, 0.36, 1) both,
+    SecretTechniqueIdleBreath 4s ease-in-out infinite;
+  animation-delay: var(--fall-delay, 0s), 60s;
+}
+
+.SummoningJutsu:hover .scroll {
+  flex: 0.8;
+  height: 72%;
+  filter: brightness(0.93);
+}
+
+.SummoningJutsu .scroll:hover {
+  flex: 6;
+  height: 140%;
+  filter: brightness(1.04);
+  box-shadow:
+    0 18px 55px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(255,255,255,0.08);
+}
+
+/* global wait + stagger */
+.scroll:nth-child(1) { --fall-delay: 0.55s; }
+.scroll:nth-child(2) { --fall-delay: 0.65s; }
+.scroll:nth-child(3) { --fall-delay: 0.75s; }
+.scroll:nth-child(4) { --fall-delay: 0.85s; }
+
+/* color variants */
+.crimsonScroll {
+  background: linear-gradient(180deg, #e31e08 0%, #790000 100%);
+}
+
+.azureScroll {
+  background: linear-gradient(180deg, #1dd6ff 0%, #1900a6 100%);
+}
+
+.emeraldScroll {
+  background: linear-gradient(180deg, #1cf808 0%, #076200 100%);
+}
+
+.goldScroll {
+  background: linear-gradient(180deg, #ffe62b 0%, #d88600 100%);
+}
+
+/* =========================
+   FALLING CARD JUTSU
+========================= */
+@keyframes FallingCardJutsu {
+  0% {
+    opacity: 0;
+    transform: skewX(-15deg) translateY(calc(-100vh - 500px)) scaleY(1.08);
+  }
+  35% {
+    opacity: 1;
+  }
+  58% {
+    opacity: 1;
+    transform: skewX(-15deg) translateY(0) scaleY(0.93);
+  }
+  72% {
+    transform: skewX(-15deg) translateY(-28px) scaleY(1.02);
+  }
+  84% {
+    transform: skewX(-15deg) translateY(0) scaleY(0.985);
+  }
+  93% {
+    transform: skewX(-15deg) translateY(-12px) scaleY(1.006);
+  }
+  100% {
+    opacity: 1;
+    transform: skewX(-15deg) translateY(0) scaleY(1);
+  }
+}
+
+/* =========================
+   TITLE SEAL
+========================= */
+.scrollTitle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) skewX(15deg) scale(1);
+  z-index: 3;
+
+  font-size: clamp(1.6rem, 2.2vw, 2.4rem);
+  line-height: 0.95;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  color: #fff;
+  text-shadow:
+    0 2px 0 rgba(0,0,0,0.45),
+    0 4px 18px rgba(0,0,0,0.55);
+
+  transition:
+   top 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    left 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    letter-spacing 0.45s ease,
+    font-size 0.45s ease,
+    opacity 0.25s ease;
+
+  font-family:
+    Impact,
+    Haettenschweiler,
+    'Arial Black',
+    sans-serif;
+}
+
+.scroll:hover .scrollTitle {
+  top: 6%;
+  left: 50%;
+  transform: translate(-50%, 0) skewX(15deg) scale(1.45);
+  letter-spacing: 0.22em;
+  font-size: clamp(2.2rem, 3.8vw, 4rem);
+}
+
+/* when hovering one scroll, other scroll titles fade out */
+.SummoningJutsu:hover .scroll .scrollTitle {
+  opacity: 0;
+}
+
+.SummoningJutsu .scroll:hover .scrollTitle {
+  opacity: 1;
+}
+/* =========================
+   SUMMONED ART
+========================= */
+.scrollArt {
+  position: absolute;
+  left: 50%;
+  bottom: 10%;
+  width: 76%;
+  max-height: 62%;
+  object-fit: contain;
+  z-index: 2;
+  pointer-events: none;
+
+  transform: translate(-50%, 44px) scale(0.9) skewX(15deg);
+  opacity: 0;
+
+  transition:
+    opacity 0.42s ease,
+    transform 0.48s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scroll:hover .scrollArt {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1) skewX(15deg);
+}
+
+/* readability fade */
+.scroll::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.22) 45%,
+    rgba(255,255,255,0.5) 50%,
+    rgba(255,255,255,0.22) 55%,
+    rgba(255,255,255,0) 100%
+  );
+}
+
+/* =========================
+   YELLOW FLASH JUTSU
+   starts after 6.5s idle
+========================= */
+.scroll::before {
+  content: '';
+  position: absolute;
+  left: -20%;
+  top: -140%;
+  width: 140%;
+  height: 38%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.16) 35%,
+    rgba(255,255,255,0.75) 50%,
+    rgba(255,255,255,0.16) 65%,
+    rgba(255,255,255,0) 100%
+  );
+  opacity: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.SummoningJutsu:not(:hover) .crimsonScroll::before {
+  animation: YellowFlashJutsuCrimson 26s linear infinite;
+  animation-delay: 6.5s;
+}
+
+.SummoningJutsu:not(:hover) .azureScroll::before {
+  animation: YellowFlashJutsuAzure 26s linear infinite;
+  animation-delay: 6.5s;
+}
+
+.SummoningJutsu:not(:hover) .emeraldScroll::before {
+  animation: YellowFlashJutsuEmerald 26s linear infinite;
+  animation-delay: 6.5s;
+}
+
+.SummoningJutsu:not(:hover) .goldScroll::before {
+  animation: YellowFlashJutsuGold 26s linear infinite;
+  animation-delay: 6.5s;
+}
+
+.SummoningJutsu:hover .scroll::before {
+  animation: none;
+  opacity: 0;
+}
+
+@keyframes YellowFlashJutsuCrimson {
+  0% { top: -140%; opacity: 0; }
+  0.5% { opacity: 1; }
+  2.2% { top: 140%; opacity: 1; }
+  2.7% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes YellowFlashJutsuAzure {
+  0%, 24.9% { top: -140%; opacity: 0; }
+  25.5% { opacity: 1; }
+  27.2% { top: 140%; opacity: 1; }
+  27.7% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes YellowFlashJutsuEmerald {
+  0%, 49.9% { top: -140%; opacity: 0; }
+  50.5% { opacity: 1; }
+  52.2% { top: 140%; opacity: 1; }
+  52.7% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes YellowFlashJutsuGold {
+  0%, 74.9% { top: -140%; opacity: 0; }
+  75.5% { opacity: 1; }
+  77.2% { top: 140%; opacity: 1; }
+  77.7% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+
+/* =========================
+   SECRET TECHNIQUE IDLE BREATH
+========================= */
+@keyframes SecretTechniqueIdleBreath {
+  0% {
+    transform: skewX(-15deg) scale(1) translateY(0);
+    filter: brightness(1);
+    box-shadow:
+      0 10px 35px rgba(0,0,0,0.35),
+      inset 0 0 0 1px rgba(255,255,255,0.05);
+  }
+  50% {
+    transform: skewX(-15deg) scale(1.04) translateY(-4px);
+    filter: brightness(1.06);
+    box-shadow:
+      0 16px 45px rgba(0,0,0,0.45),
+      inset 0 0 0 1px rgba(255,255,255,0.06);
+  }
+  100% {
+    transform: skewX(-15deg) scale(1) translateY(0);
+    filter: brightness(1);
+    box-shadow:
+      0 10px 35px rgba(0,0,0,0.35),
+      inset 0 0 0 1px rgba(255,255,255,0.05);
+  }
+}
+
+/* =========================
+   MOBILE MODE
+========================= */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  body::before {
+    top: -120px;
+    width: 700px;
+    height: 260px;
+  }
+
+  .SummoningJutsu {
+    width: calc(100vw - 60px);
+    height: auto;
+    margin: 6vh auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 18px;
+  }
+
+  .scroll {
+    width: 100%;
+    flex: none;
+    height: 120px;
+    transform: none;
+    border-radius: 18px;
+    opacity: 0;
+    animation: FallingCardJutsuMobile 1.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--fall-delay, 0s);
+  }
+
+  .SummoningJutsu:not(:hover) .scroll {
+    animation:
+      FallingCardJutsuMobile 1.25s cubic-bezier(0.22, 1, 0.36, 1) both,
+      SecretTechniqueIdleBreathMobile 4s ease-in-out infinite;
+    animation-delay: var(--fall-delay, 0s), 600s;
+  }
+
+  .SummoningJutsu:hover .scroll {
+    flex: none;
+    height: 102px;
+  }
+
+  .SummoningJutsu .scroll:hover {
+    flex: none;
+    height: 180px;
+  }
+
+  .scrollTitle {
+    transform: translate(-50%, -50%) scale(1);
+    font-size: 1.65rem;
+  }
+
+  .scroll:hover .scrollTitle {
+    top: 8%;
+    transform: translate(-50%, 0) scale(1.22);
+    font-size: 1.8rem;
+    letter-spacing: 0.16em;
+  }
+
+  .scrollArt {
+    width: 58%;
+    max-height: 58%;
+    transform: translate(-50%, 28px) scale(0.95);
+  }
+
+  .scroll:hover .scrollArt {
+    transform: translate(-50%, 0) scale(1);
+  }
+
+  .scroll::before {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  @keyframes FallingCardJutsuMobile {
+    0% {
+      opacity: 0;
+      transform: translateY(calc(-100vh - 300px)) scaleY(1.08);
+    }
+    35% {
+      opacity: 1;
+    }
+    58% {
+      opacity: 1;
+      transform: translateY(0) scaleY(0.93);
+    }
+    72% {
+      transform: translateY(-18px) scaleY(1.02);
+    }
+    84% {
+      transform: translateY(0) scaleY(0.985);
+    }
+    93% {
+      transform: translateY(-8px) scaleY(1.006);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scaleY(1);
+    }
+  }
+
+  @keyframes SecretTechniqueIdleBreathMobile {
+    0% {
+      transform: scale(1) translateY(0);
+      filter: brightness(1);
+      box-shadow:
+        0 10px 35px rgba(0,0,0,0.35),
+        inset 0 0 0 1px rgba(255,255,255,0.05);
+    }
+    50% {
+      transform: scale(1.03) translateY(-3px);
+      filter: brightness(1.05);
+      box-shadow:
+        0 14px 38px rgba(0,0,0,0.42),
+        inset 0 0 0 1px rgba(255,255,255,0.06);
+    }
+    100% {
+      transform: scale(1) translateY(0);
+      filter: brightness(1);
+      box-shadow:
+        0 10px 35px rgba(0,0,0,0.35),
+        inset 0 0 0 1px rgba(255,255,255,0.05);
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .SummoningJutsu {
+    width: calc(100vw - 60px);
+    gap: 14px;
+    margin: 5vh auto;
+  }
+
+  .scroll {
+    height: 100px;
+    border-radius: 16px;
+  }
+
+  .SummoningJutsu:hover .scroll {
+    height: 90px;
+  }
+
+  .SummoningJutsu .scroll:hover {
+    height: 155px;
+  }
+
+  .scrollTitle {
+    font-size: 1.35rem;
+  }
+
+  .scrollArt {
+    width: 64%;
+  }
+}
+
+
+
+/* =========================
+   MASCOT SUMMON
+========================= */
+.MascotSummon {
+  position: fixed;
+  right: 34px;
+  bottom: -260px;
+  width: 230px;
+  height: 230px;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.MascotFrame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+}
+
+/* keep all images same dimensions as first image area */
+.MascotBase,
+.MascotBlink,
+.MascotSmile {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* =========================
+   IDLE TRIGGER
+   starts at 60s idle
+   whole sequence = 12s
+========================= */
+.SummoningJutsu:not(:hover) ~ .MascotSummon,
+body:not(:has(.SummoningJutsu:hover)) .MascotSummon {
+  animation: MascotEntranceJutsu 12s ease-in-out infinite;
+  animation-delay: 60s;
+}
+
+/* frame visibility timing */
+.SummoningJutsu:not(:hover) ~ .MascotSummon .MascotBase,
+body:not(:has(.SummoningJutsu:hover)) .MascotSummon .MascotBase {
+  animation: MascotBaseCycleJutsu 12s linear infinite;
+  animation-delay: 60s;
+}
+
+.SummoningJutsu:not(:hover) ~ .MascotSummon .MascotBlink,
+body:not(:has(.SummoningJutsu:hover)) .MascotSummon .MascotBlink {
+  animation: MascotBlinkCycleJutsu 12s linear infinite;
+  animation-delay: 60s;
+}
+
+.SummoningJutsu:not(:hover) ~ .MascotSummon .MascotSmile,
+body:not(:has(.SummoningJutsu:hover)) .MascotSummon .MascotSmile {
+  animation: MascotSmileCycleJutsu 12s linear infinite;
+  animation-delay: 60s;
+}
+
+/* hard stop/reset on hover */
+.SummoningJutsu:hover ~ .MascotSummon,
+.SummoningJutsu:hover ~ .MascotSummon .MascotFrame {
+  animation: none !important;
+  opacity: 0 !important;
+}
+
+/* =========================
+   WRAPPER MOTION
+========================= */
+@keyframes MascotEntranceJutsu {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  8% {
+    opacity: 1;
+    transform: translateY(-210px);
+  }
+  84% {
+    opacity: 1;
+    transform: translateY(-210px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   FRAME TIMELINE
+   0-12s total
+   0.0-1.0 rise in
+   1.0-4.6 base
+   4.6-5.0 blink
+   5.0-6.0 base
+   6.0-8.4 smile
+   8.4-10.0 base
+   10.0-12.0 down/out
+========================= */
+@keyframes MascotBaseCycleJutsu {
+  0%   { opacity: 0; }
+  8%   { opacity: 1; }
+  38%  { opacity: 1; }
+  41%  { opacity: 0; }  /* blink starts */
+  46%  { opacity: 1; }  /* back to base */
+  50%  { opacity: 1; }
+  51%  { opacity: 0; }  /* smile starts */
+  70%  { opacity: 0; }
+  71%  { opacity: 1; }  /* back to base */
+  84%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes MascotBlinkCycleJutsu {
+  0%   { opacity: 0; }
+  38%  { opacity: 0; }
+  41%  { opacity: 1; }
+  45%  { opacity: 1; }
+  46%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes MascotSmileCycleJutsu {
+  0%   { opacity: 0; }
+  50%  { opacity: 0; }
+  51%  { opacity: 1; }
+  70%  { opacity: 1; }  /* couple seconds */
+  71%  { opacity: 0; }
+  100% { opacity: 0; }
+}
